@@ -27,7 +27,7 @@ Built with **Next.js**, **MapLibre GL**, **FastAPI**, and **Python**, it's desig
 * Detect GPS jamming zones
 * Follow earthquakes and disasters in real time
 
-![zuck](https://github.com/user-attachments/assets/b3dd60d5-ca5b-412b-9806-b742557e15d6)
+![Untitled](https://github.com/user-attachments/assets/5542715b-38fc-41ef-be64-d9f6373f9c0d)
 
 ---
 

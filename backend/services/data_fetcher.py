@@ -48,6 +48,14 @@ from services.fetchers.geo import (  # noqa: F401
     fetch_frontlines, fetch_gdelt, fetch_geopolitics, update_liveuamap,
 )
 
+# New OSINT fetcher modules (flood, UCDP, CAP alerts, OpenRouter AI, LiveATC, NASA FIRMS, NASA EOSDIS)
+from services.fetchers.flood import fetch_flood_data  # noqa: F401
+from services.fetchers.ucdp import fetch_ucdp_conflicts  # noqa: F401
+from services.fetchers.cap_alerts import fetch_cap_alerts  # noqa: F401
+from services.fetchers.openrouter_ai import analyze_with_ai  # noqa: F401
+from services.fetchers.liveatc import fetch_atc_stream_data  # noqa: F401
+from services.fetchers.nasa_firms import get_active_fires, get_fires_all_sources  # noqa: F401
+from services.fetchers.nasa_eosdis import fetch_eosdis_dashboard_data, get_gibs_layer_info  # noqa: F401
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -88,6 +96,12 @@ def update_slow_data():
         fetch_datacenters,
         fetch_military_bases,
         fetch_power_plants,
+        fetch_flood_data,
+        fetch_ucdp_conflicts,
+        fetch_cap_alerts,
+        fetch_atc_stream_data,
+        get_fires_all_sources,
+        fetch_eosdis_dashboard_data,
     ]
     with concurrent.futures.ThreadPoolExecutor(max_workers=len(slow_funcs)) as executor:
         futures = [executor.submit(func) for func in slow_funcs]

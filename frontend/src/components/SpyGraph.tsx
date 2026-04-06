@@ -13,6 +13,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import type { ElementDefinition } from "cytoscape";
 import { X, ZoomIn, ZoomOut, Maximize2, RotateCcw, Network } from "lucide-react";
 
 /* ─────────────────────────────────────────────
@@ -280,7 +281,7 @@ const SpyGraph: React.FC<SpyGraphProps> = ({
     try { cytoscape.use(coseBilkent); } catch { /* zaten kayıtlı */ }
 
     /* Düğüm + kenar verisi */
-    const elements: object[] = [];
+    const elements: ElementDefinition[] = [];
 
     // Kategori düğümleri
     visibleCategories.forEach((cat) => {

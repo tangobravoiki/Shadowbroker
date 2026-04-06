@@ -36,6 +36,10 @@ jobs:
       - name: Build with Next.js (static export for GitHub Pages)
         working-directory: frontend
         run: |
+          # Temporarily remove API routes (not supported in static export)
+          mv src/app/api src/app/_api_backup 2>/dev/null || true
+
+          # Override next.config.ts for static export with basePath
           cat > next.config.ts << 'NEXTCONF'
           import type { NextConfig } from "next";
           const nextConfig: NextConfig = {
@@ -47,6 +51,7 @@ jobs:
           };
           export default nextConfig;
           NEXTCONF
+
           npm run build
         env:
           NEXT_TELEMETRY_DISABLED: 1

@@ -11,14 +11,14 @@ const ThemeContext = createContext<{
   hudColor: HudColor;
   cycleHudColor: () => void;
 }>({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () => {},
   hudColor: "cyan",
   cycleHudColor: () => {},
 });
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
   const [hudColor, setHudColor] = useState<HudColor>("cyan");
 
   useEffect(() => {

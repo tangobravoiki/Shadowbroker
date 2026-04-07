@@ -19,6 +19,8 @@ export function useDataPolling() {
   const data = dataRef.current;
 
   const [backendStatus, setBackendStatus] = useState<BackendStatus>('connecting');
+  // Count consecutive fast-endpoint failures to avoid flashing OFFLINE on first cold start.
+  const fastFailures = useRef(0);
 
   const fastEtag = useRef<string | null>(null);
   const slowEtag = useRef<string | null>(null);
@@ -33,8 +35,14 @@ export function useDataPolling() {
         const headers: Record<string, string> = {};
         if (fastEtag.current) headers['If-None-Match'] = fastEtag.current;
         const res = await fetch(`${API_BASE}/api/live-data/fast`, { headers });
-        if (res.status === 304) { setBackendStatus('connected'); scheduleNext('fast'); return; }
+        if (res.status === 304) {
+          fastFailures.current = 0;
+          setBackendStatus('connected');
+          scheduleNext('fast');
+          return;
+        }
         if (res.ok) {
+          fastFailures.current = 0;
           setBackendStatus('connected');
           fastEtag.current = res.headers.get('etag') || null;
           const json = await res.json();
@@ -44,8 +52,12 @@ export function useDataPolling() {
           if (flights > 100) hasData = true;
         }
       } catch (e) {
+        fastFailures.current += 1;
         console.error("Failed fetching fast live data", e);
-        setBackendStatus('disconnected');
+        // Only declare OFFLINE after 3 consecutive failures (~30s) to absorb Render cold-starts.
+        if (fastFailures.current >= 3) {
+          setBackendStatus('disconnected');
+        }
       }
       scheduleNext('fast');
     };

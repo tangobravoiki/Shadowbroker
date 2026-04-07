@@ -245,28 +245,7 @@ export default function Dashboard() {
 
       {uiVisible && (
         <>
-          {/* WORLDVIEW HEADER */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute top-6 left-6 z-[200] pointer-events-none flex items-center gap-4 hud-zone"
-          >
-            <div className="w-8 h-8 flex items-center justify-center">
-              {/* Target Reticle Icon */}
-              <div className="w-6 h-6 rounded-full border border-cyan-500 relative flex items-center justify-center">
-                <div className="w-4 h-4 rounded-full bg-cyan-500/30"></div>
-                <div className="absolute top-[-2px] bottom-[-2px] w-[1px] bg-cyan-500"></div>
-                <div className="absolute left-[-2px] right-[-2px] h-[1px] bg-cyan-500"></div>
-              </div>
-            </div>
-            <div className="flex flex-col">
-              <h1 className="text-2xl font-bold tracking-[0.4em] text-[var(--text-primary)] flex items-center gap-3" style={{ fontFamily: 'monospace' }}>
-                S H A D O W <span className="text-cyan-400">B R O K E R</span>
-              </h1>
-              <span className="text-[9px] text-[var(--text-muted)] font-mono tracking-[0.3em] mt-1 ml-1">GLOBAL THREAT INTERCEPT</span>
-            </div>
-          </motion.div>
+
 
           {/* SYSTEM METRICS TOP LEFT */}
           <div className="absolute top-2 left-6 text-[8px] font-mono tracking-widest text-cyan-500/50 z-[200] pointer-events-none hud-zone">
@@ -513,11 +492,18 @@ export default function Dashboard() {
         <ChangelogModal onClose={() => setShowChangelog(false)} />
       )}
 
-      {/* BACKEND DISCONNECTED BANNER */}
+      {/* BACKEND STATUS BANNER */}
+      {backendStatus === 'connecting' && (
+        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-1.5 bg-yellow-950/80 border-b border-yellow-600/30 backdrop-blur-sm">
+          <span className="text-[9px] font-mono tracking-widest text-yellow-500 animate-pulse">
+            ⟳ CONNECTING TO BACKEND — RENDER FREE TIER MAY TAKE ~30s TO WAKE UP
+          </span>
+        </div>
+      )}
       {backendStatus === 'disconnected' && (
-        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-2 bg-red-950/90 border-b border-red-500/40 backdrop-blur-sm">
-          <span className="text-[10px] font-mono tracking-widest text-red-400">
-            BACKEND OFFLINE — Cannot reach backend server. Check that the backend container is running and BACKEND_URL is correct.
+        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-1.5 bg-red-950/90 border-b border-red-500/40 backdrop-blur-sm">
+          <span className="text-[9px] font-mono tracking-widest text-red-400">
+            ✕ BACKEND OFFLINE — Render servisine ulaşılamıyor. Otomatik yeniden deneniyor...
           </span>
         </div>
       )}

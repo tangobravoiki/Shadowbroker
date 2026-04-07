@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: shadowbroker-backend
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    region: frankfurt
+    branch: main
+    envVars:
+      - key: CORS_ORIGINS
+        value: https://tangobravoiki.github.io
+      # Set these manually in Render dashboard after deploy:
+      - key: AIS_API_KEY
+        sync: false
+      - key: NASA_FIRMS_KEY
+        sync: false
+      - key: OPENSKY_CLIENT_ID
+        sync: false
+      - key: OPENSKY_CLIENT_SECRET
+        sync: false

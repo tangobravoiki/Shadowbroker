@@ -1,0 +1,61 @@
+# Production deployment — uses pre-built images from GitHub Container Registry.
+# No source code or build tools needed on the server.
+#
+# Quick start:
+#   cp backend/.env.example .env
+#   # Edit .env and fill in your API keys
+#   docker compose -f docker-compose.prod.yml up -d
+#
+# Images are rebuilt automatically on every push to main via GitHub Actions.
+# To pull the latest images after an update:
+#   docker compose -f docker-compose.prod.yml pull && docker compose -f docker-compose.prod.yml up -d
+
+services:
+  backend:
+    image: ghcr.io/tangobravoiki/shadowbroker-backend:latest
+    container_name: shadowbroker-backend
+    env_file: .env                       # All keys from backend/.env.example
+    volumes:
+      - backend_data:/app/data           # Persists plane-alert DB, cache files, etc.
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s                  # Backend needs ~60s to load all static DBs
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2'
+
+  frontend:
+    image: ghcr.io/tangobravoiki/shadowbroker-frontend:latest
+    container_name: shadowbroker-frontend
+    ports:
+      - "3000:3000"                      # Access the dashboard at http://<server-ip>:3000
+    environment:
+      # Next.js server-side proxy — never exposed to the browser.
+      # Change only if the backend runs on a different host.
+      - BACKEND_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1'
+
+volumes:
+  backend_data:
+    # Named volume — survives container restarts and image updates.
+    # To inspect: docker volume inspect shadowbroker_backend_data

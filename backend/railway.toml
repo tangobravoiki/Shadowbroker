@@ -1,0 +1,20 @@
+# Railway deployment config — Backend (FastAPI)
+# https://railway.app
+#
+# Deploy via Railway dashboard:
+#   1. New Project → Deploy from GitHub repo
+#   2. Select "backend" service → set root directory to /backend
+#   3. Railway auto-detects the Dockerfile
+#   4. Add env vars from backend/.env.example in the Variables tab
+#   5. Copy the public URL (e.g. https://shadowbroker-backend.railway.app)
+#      → set it as BACKEND_URL in the frontend service
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Railway injects $PORT at runtime; override uvicorn to use it.
+startCommand = "uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useApiHealthSafe } from '@/lib/ApiHealthContext';
 
 // Module-level cache: Wikipedia article title → thumbnail URL
 const _cache: Record<string, { url: string | null; done: boolean }> = {};
@@ -21,6 +22,7 @@ export default function WikiImage({ wikiUrl, label, maxH = 'max-h-52', accent = 
     accent?: string;
 }) {
     const [, forceUpdate] = useState(0);
+    const apiHealth = useApiHealthSafe();
 
     // Extract article title from URL
     const title = wikiUrl.replace(/^https?:\/\/[^/]+\/wiki\//, '');
@@ -30,17 +32,21 @@ export default function WikiImage({ wikiUrl, label, maxH = 'max-h-52', accent = 
         if (_cache[title]) return; // In-flight
         _cache[title] = { url: null, done: false };
 
+        const start = performance.now();
         fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`)
             .then(r => r.json())
             .then(d => {
+                const responseTime = Math.round(performance.now() - start);
+                apiHealth?.recordApiCall('wikipedia', true, responseTime);
                 _cache[title] = { url: d.thumbnail?.source || d.originalimage?.source || null, done: true };
                 forceUpdate(n => n + 1);
             })
             .catch(() => {
+                apiHealth?.recordApiCall('wikipedia', false);
                 _cache[title] = { url: null, done: true };
                 forceUpdate(n => n + 1);
             });
-    }, [title]);
+    }, [title, apiHealth]);
 
     const cached = _cache[title];
     const imgUrl = cached?.url;

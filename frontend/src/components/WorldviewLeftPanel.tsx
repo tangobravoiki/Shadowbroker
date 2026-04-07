@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plane, AlertTriangle, Activity, Satellite, Cctv, ChevronDown, ChevronUp, Ship, Eye, Anchor, Settings, Sun, Moon, BookOpen, Radio, Play, Pause, Globe, Flame, Wifi, Server, Shield, Zap, ToggleLeft, ToggleRight, Palette } from "lucide-react";
 import packageJson from "../../package.json";
 import { useTheme } from "@/lib/ThemeContext";
+import ApiHealthPanel from "@/components/ApiHealthPanel";
 
 function relativeTime(iso: string | undefined): string {
     if (!iso) return "";
@@ -240,6 +241,11 @@ const WorldviewLeftPanel = React.memo(function WorldviewLeftPanel({ data, active
                         v{packageJson.version}
                     </span>
                 </div>
+            </div>
+
+            {/* API Health Status Panel */}
+            <div className="mb-4 pointer-events-auto">
+                <ApiHealthPanel compact />
             </div>
 
             {/* Data Layers Box */}

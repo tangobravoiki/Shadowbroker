@@ -1,7 +1,14 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { API_BASE } from "@/lib/api";
 
 export type BackendStatus = 'connecting' | 'connected' | 'disconnected';
+
+// Global API health recorder (set by ApiHealthProvider)
+let globalRecordApiCall: ((api: string, success: boolean, responseTime?: number) => void) | null = null;
+
+export function setGlobalApiHealthRecorder(recorder: typeof globalRecordApiCall) {
+  globalRecordApiCall = recorder;
+}
 
 /**
  * Polls the backend for fast and slow data tiers.
@@ -29,13 +36,22 @@ export function useDataPolling() {
     let slowTimerId: ReturnType<typeof setTimeout> | null = null;
 
     const fetchFastData = async () => {
+      const start = performance.now();
       try {
         const headers: Record<string, string> = {};
         if (fastEtag.current) headers['If-None-Match'] = fastEtag.current;
         const res = await fetch(`${API_BASE}/api/live-data/fast`, { headers });
-        if (res.status === 304) { setBackendStatus('connected'); scheduleNext('fast'); return; }
+        const responseTime = Math.round(performance.now() - start);
+        
+        if (res.status === 304) { 
+          setBackendStatus('connected');
+          globalRecordApiCall?.('backend', true, responseTime);
+          scheduleNext('fast'); 
+          return; 
+        }
         if (res.ok) {
           setBackendStatus('connected');
+          globalRecordApiCall?.('backend', true, responseTime);
           fastEtag.current = res.headers.get('etag') || null;
           const json = await res.json();
           dataRef.current = { ...dataRef.current, ...json };
@@ -46,17 +62,26 @@ export function useDataPolling() {
       } catch (e) {
         console.error("Failed fetching fast live data", e);
         setBackendStatus('disconnected');
+        globalRecordApiCall?.('backend', false);
       }
       scheduleNext('fast');
     };
 
     const fetchSlowData = async () => {
+      const start = performance.now();
       try {
         const headers: Record<string, string> = {};
         if (slowEtag.current) headers['If-None-Match'] = slowEtag.current;
         const res = await fetch(`${API_BASE}/api/live-data/slow`, { headers });
-        if (res.status === 304) { scheduleNext('slow'); return; }
+        const responseTime = Math.round(performance.now() - start);
+        
+        if (res.status === 304) { 
+          globalRecordApiCall?.('backend', true, responseTime);
+          scheduleNext('slow'); 
+          return; 
+        }
         if (res.ok) {
+          globalRecordApiCall?.('backend', true, responseTime);
           slowEtag.current = res.headers.get('etag') || null;
           const json = await res.json();
           dataRef.current = { ...dataRef.current, ...json };
@@ -64,6 +89,7 @@ export function useDataPolling() {
         }
       } catch (e) {
         console.error("Failed fetching slow live data", e);
+        globalRecordApiCall?.('backend', false);
       }
       scheduleNext('slow');
     };

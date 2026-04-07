@@ -513,11 +513,18 @@ export default function Dashboard() {
         <ChangelogModal onClose={() => setShowChangelog(false)} />
       )}
 
-      {/* BACKEND DISCONNECTED BANNER */}
+      {/* BACKEND STATUS BANNER */}
+      {backendStatus === 'connecting' && (
+        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-1.5 bg-yellow-950/80 border-b border-yellow-600/30 backdrop-blur-sm">
+          <span className="text-[9px] font-mono tracking-widest text-yellow-500 animate-pulse">
+            ⟳ CONNECTING TO BACKEND — RENDER FREE TIER MAY TAKE ~30s TO WAKE UP
+          </span>
+        </div>
+      )}
       {backendStatus === 'disconnected' && (
-        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-2 bg-red-950/90 border-b border-red-500/40 backdrop-blur-sm">
-          <span className="text-[10px] font-mono tracking-widest text-red-400">
-            BACKEND OFFLINE — Cannot reach backend server. Check that the backend container is running and BACKEND_URL is correct.
+        <div className="absolute top-0 left-0 right-0 z-[9000] flex items-center justify-center py-1.5 bg-red-950/90 border-b border-red-500/40 backdrop-blur-sm">
+          <span className="text-[9px] font-mono tracking-widest text-red-400">
+            ✕ BACKEND OFFLINE — Render servisine ulaşılamıyor. Otomatik yeniden deneniyor...
           </span>
         </div>
       )}

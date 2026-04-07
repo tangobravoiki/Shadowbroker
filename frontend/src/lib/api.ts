@@ -1,8 +1,10 @@
-// All API calls use relative paths (e.g. /api/flights).
-// The catch-all route handler at src/app/api/[...path]/route.ts proxies them
-// to BACKEND_URL at runtime (set in docker-compose or .env.local for dev).
-// This means:
-//   - No build-time baking of the backend URL into the client bundle
-//   - BACKEND_URL=http://backend:8000 works via Docker internal networking
-//   - Only port 3000 needs to be exposed externally
-export const API_BASE = "";
+// API base URL resolution:
+//
+// 1. NEXT_PUBLIC_API_BASE env var (set in GitHub Pages build via repo secret)
+//    → points to Fly.io backend, e.g. "https://shadowbroker-backend.fly.dev"
+//
+// 2. "" (empty string) — fallback for local dev / Docker
+//    → relative paths (/api/...) are proxied to BACKEND_URL by
+//      src/app/api/[...path]/route.ts at runtime
+//
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "";

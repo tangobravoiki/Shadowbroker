@@ -89,7 +89,7 @@ const OnboardingModal = React.memo(function OnboardingModal({ onClose, onOpenSet
                 className="fixed inset-0 z-[10001] flex items-center justify-center pointer-events-none"
             >
                 <div
-                    className="w-[580px] max-h-[85vh] bg-[var(--bg-secondary)]/98 border border-cyan-900/50 rounded-xl shadow-[0_0_80px_rgba(0,200,255,0.08)] pointer-events-auto flex flex-col overflow-hidden"
+                    className="w-[580px] max-h-[85vh] bg-black/80 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_0_80px_rgba(0,0,0,0.5)] pointer-events-auto flex flex-col overflow-hidden"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {/* Header */}

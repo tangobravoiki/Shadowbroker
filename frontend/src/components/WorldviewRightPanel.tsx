@@ -27,10 +27,10 @@ const WorldviewRightPanel = React.memo(function WorldviewRightPanel({ effects, s
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1 }}
-            className={`w-full bg-[var(--bg-primary)]/40 backdrop-blur-md border border-[var(--border-primary)] rounded-xl z-10 flex flex-col font-mono shadow-[0_4px_30px_rgba(0,0,0,0.2)] pointer-events-auto overflow-hidden transition-all duration-300 flex-shrink-0 ${isMinimized ? 'h-[50px]' : 'h-[320px]'}`}
+            className={`w-full glass-panel rounded-xl z-10 flex flex-col font-mono shadow-[0_4px_30px_rgba(0,0,0,0.4)] pointer-events-auto overflow-hidden transition-all duration-300 flex-shrink-0 ${isMinimized ? 'h-[50px]' : 'h-[320px]'}`}
         >
             {/* Record / Orbit Tracker Header */}
-            <div className="flex items-center gap-3 mb-6 border border-[var(--border-primary)] bg-[var(--bg-primary)]/40 backdrop-blur-md px-4 py-2 rounded-sm relative shadow-[0_4px_30px_rgba(0,0,0,0.2)] pointer-events-auto">
+            <div className="flex items-center gap-3 mb-6 glass-panel-light px-4 py-2 rounded-sm relative shadow-[0_4px_30px_rgba(0,0,0,0.4)] pointer-events-auto">
                 <div className="absolute -top-1 -left-1 w-2 h-2 border-t border-l border-[var(--text-muted)]/50"></div>
                 <div className="absolute -bottom-1 -right-1 w-2 h-2 border-b border-r border-[var(--text-muted)]/50"></div>
                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
@@ -42,7 +42,7 @@ const WorldviewRightPanel = React.memo(function WorldviewRightPanel({ effects, s
             </div>
 
             {/* Right side controls box */}
-            <div className="bg-[var(--bg-primary)]/40 backdrop-blur-md border border-[var(--border-primary)] rounded-xl pointer-events-auto border-r-2 border-r-[var(--border-primary)] flex flex-col relative overflow-hidden h-full">
+            <div className="glass-panel rounded-xl pointer-events-auto flex flex-col relative overflow-hidden h-full">
 
                 {/* Header / Toggle */}
                 <div

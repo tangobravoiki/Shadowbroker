@@ -155,7 +155,7 @@ export default function ApiHealthPanel({ compact = false }: { compact?: boolean 
 
   if (compact) {
     return (
-      <div className="bg-[var(--bg-primary)]/40 backdrop-blur-md border border-[var(--border-primary)] rounded-lg overflow-hidden">
+      <div className="glass-panel rounded-lg overflow-hidden">
         <div
           className="flex items-center justify-between p-2 cursor-pointer hover:bg-[var(--bg-secondary)]/50 transition-colors"
           onClick={() => setIsExpanded(!isExpanded)}
@@ -227,7 +227,7 @@ export default function ApiHealthPanel({ compact = false }: { compact?: boolean 
 
   // Full panel view
   return (
-    <div className="bg-[var(--bg-primary)]/40 backdrop-blur-md border border-[var(--border-primary)] rounded-xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.2)]">
+    <div className="glass-panel rounded-xl overflow-hidden shadow-[0_4px_30px_rgba(0,0,0,0.4)]">
       <div className="flex items-center justify-between p-4 border-b border-[var(--border-primary)]/50">
         <div className="flex items-center gap-2">
           <Activity size={14} className={

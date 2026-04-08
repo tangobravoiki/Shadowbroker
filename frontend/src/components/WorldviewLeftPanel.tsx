@@ -249,7 +249,7 @@ const WorldviewLeftPanel = React.memo(function WorldviewLeftPanel({ data, active
             </div>
 
             {/* Data Layers Box */}
-            <div className="bg-[var(--bg-primary)]/40 backdrop-blur-md border border-[var(--border-primary)] rounded-xl pointer-events-auto shadow-[0_4px_30px_rgba(0,0,0,0.2)] flex flex-col relative overflow-hidden max-h-full">
+            <div className="glass-panel rounded-xl pointer-events-auto shadow-[0_4px_30px_rgba(0,0,0,0.4)] flex flex-col relative overflow-hidden max-h-full">
 
                 {/* Header / Toggle */}
                 <div

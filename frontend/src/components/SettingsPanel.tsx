@@ -215,7 +215,7 @@ const SettingsPanel = React.memo(function SettingsPanel({ isOpen, onClose }: { i
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -300 }}
                         transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                        className="fixed left-0 top-0 bottom-0 w-[480px] bg-[var(--bg-secondary)]/95 backdrop-blur-xl border-r border-cyan-900/50 z-[9999] flex flex-col shadow-[4px_0_40px_rgba(0,0,0,0.3)]"
+                        className="fixed left-0 top-0 bottom-0 w-[480px] bg-black/80 backdrop-blur-xl border-r border-white/10 z-[9999] flex flex-col shadow-[4px_0_40px_rgba(0,0,0,0.5)]"
                     >
                         {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b border-[var(--border-primary)]/80">

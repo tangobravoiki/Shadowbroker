@@ -2,39 +2,39 @@
 
 :root {
   --background: #000000;
-  --foreground: #ededed;
-  --bg-primary: #000000;
-  --bg-secondary: rgb(5, 5, 8);
-  --bg-tertiary: rgb(12, 12, 16);
-  --bg-panel: rgba(0, 0, 0, 0.85);
-  --border-primary: rgb(10, 12, 15);
-  --border-secondary: rgb(20, 24, 28);
-  --text-primary: rgb(243, 244, 246);
-  --text-secondary: rgb(34, 211, 238);
-  --text-muted: rgb(8, 145, 178);
-  --text-heading: rgb(236, 254, 255);
-  --hover-accent: rgba(8, 51, 68, 0.2);
-  --scrollbar-thumb: rgba(8, 145, 178, 0.3);
-  --scrollbar-thumb-hover: rgba(8, 145, 178, 0.5);
+  --foreground: #ffffff;
+  --bg-primary: rgba(0, 0, 0, 0.5);
+  --bg-secondary: rgba(0, 0, 0, 0.6);
+  --bg-tertiary: rgba(0, 0, 0, 0.7);
+  --bg-panel: rgba(0, 0, 0, 0.8);
+  --border-primary: rgba(255, 255, 255, 0.15);
+  --border-secondary: rgba(255, 255, 255, 0.25);
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --text-heading: #ffffff;
+  --hover-accent: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.3);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
 }
 
-/* Light theme: only the map basemap changes — UI stays dark */
+/* Light theme: only the map basemap changes — UI stays dark with white text */
 [data-theme="light"] {
   --background: #000000;
-  --foreground: #ededed;
-  --bg-primary: #000000;
-  --bg-secondary: rgb(5, 5, 8);
-  --bg-tertiary: rgb(12, 12, 16);
-  --bg-panel: rgba(0, 0, 0, 0.85);
-  --border-primary: rgb(10, 12, 15);
-  --border-secondary: rgb(20, 24, 28);
-  --text-primary: rgb(243, 244, 246);
-  --text-secondary: rgb(34, 211, 238);
-  --text-muted: rgb(8, 145, 178);
-  --text-heading: rgb(236, 254, 255);
-  --hover-accent: rgba(8, 51, 68, 0.2);
-  --scrollbar-thumb: rgba(8, 145, 178, 0.3);
-  --scrollbar-thumb-hover: rgba(8, 145, 178, 0.5);
+  --foreground: #ffffff;
+  --bg-primary: rgba(0, 0, 0, 0.5);
+  --bg-secondary: rgba(0, 0, 0, 0.6);
+  --bg-tertiary: rgba(0, 0, 0, 0.7);
+  --bg-panel: rgba(0, 0, 0, 0.8);
+  --border-primary: rgba(255, 255, 255, 0.15);
+  --border-secondary: rgba(255, 255, 255, 0.25);
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --text-heading: #ffffff;
+  --hover-accent: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.3);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
 }
 
 @theme inline {
@@ -70,6 +70,23 @@ body {
 
 .styled-scrollbar {
   scrollbar-width: thin;
+}
+
+/* Glassmorphism panel base — siyah zemin, beyaz yazı, blur */
+.glass-panel {
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.glass-panel-light {
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 /* Map popup shared utilities */
@@ -114,15 +131,96 @@ body {
   display: none !important;
 }
 
+/* ── PANEL WHITE-ON-BLACK OVERRIDE ──
+   Tüm .hud-zone içindeki cyan/colored yazılar beyaza döner,
+   glassmorphism (backdrop-blur) korunur. */
+.hud-zone {
+  color: #ffffff;
+}
+
+/* Panel arka planları: siyah + glassmorphism */
+.hud-zone [class*="bg-[var(--bg-primary)]"],
+.hud-zone [class*="bg-[var(--bg-secondary)]"],
+.hud-zone [class*="bg-[var(--bg-tertiary)]"] {
+  background-color: rgba(0, 0, 0, 0.55) !important;
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+}
+
+/* Cyan text → white */
+.hud-zone .text-cyan-300,
+.hud-zone .text-cyan-400,
+.hud-zone .text-cyan-500,
+.hud-zone .text-cyan-600,
+.hud-zone .text-cyan-700 {
+  color: #ffffff !important;
+}
+.hud-zone .text-cyan-500\/50 { color: rgba(255,255,255,0.5) !important; }
+.hud-zone .text-cyan-500\/70 { color: rgba(255,255,255,0.7) !important; }
+.hud-zone .text-cyan-500\/80 { color: rgba(255,255,255,0.8) !important; }
+
+/* Cyan backgrounds → black/transparent */
+.hud-zone .bg-cyan-400,
+.hud-zone .bg-cyan-300,
+.hud-zone .bg-cyan-500 {
+  background-color: rgba(0,0,0,0.6) !important;
+}
+.hud-zone .bg-cyan-500\/10 { background-color: rgba(255,255,255,0.05) !important; }
+.hud-zone .bg-cyan-500\/20 { background-color: rgba(255,255,255,0.08) !important; }
+.hud-zone .bg-cyan-500\/30 { background-color: rgba(255,255,255,0.12) !important; }
+.hud-zone .bg-cyan-900\/30 { background-color: rgba(0,0,0,0.4) !important; }
+.hud-zone .bg-cyan-900\/50 { background-color: rgba(0,0,0,0.55) !important; }
+.hud-zone .bg-cyan-900\/60 { background-color: rgba(0,0,0,0.65) !important; }
+.hud-zone .bg-cyan-950\/10 { background-color: rgba(0,0,0,0.1) !important; }
+.hud-zone .bg-cyan-950\/30 { background-color: rgba(0,0,0,0.3) !important; }
+.hud-zone .bg-cyan-950\/40 { background-color: rgba(0,0,0,0.4) !important; }
+
+/* Cyan borders → white/transparent */
+.hud-zone .border-cyan-400,
+.hud-zone .border-cyan-500,
+.hud-zone .border-cyan-700,
+.hud-zone .border-cyan-800,
+.hud-zone .border-cyan-900 {
+  border-color: rgba(255,255,255,0.25) !important;
+}
+.hud-zone .border-cyan-500\/10 { border-color: rgba(255,255,255,0.1) !important; }
+.hud-zone .border-cyan-500\/20 { border-color: rgba(255,255,255,0.12) !important; }
+.hud-zone .border-cyan-500\/30 { border-color: rgba(255,255,255,0.15) !important; }
+.hud-zone .border-cyan-500\/40 { border-color: rgba(255,255,255,0.2) !important; }
+.hud-zone .border-cyan-500\/50 { border-color: rgba(255,255,255,0.25) !important; }
+.hud-zone .border-cyan-800\/40 { border-color: rgba(255,255,255,0.15) !important; }
+.hud-zone .border-cyan-800\/50 { border-color: rgba(255,255,255,0.18) !important; }
+.hud-zone .border-cyan-800\/60 { border-color: rgba(255,255,255,0.22) !important; }
+.hud-zone .border-cyan-900\/50 { border-color: rgba(255,255,255,0.15) !important; }
+.hud-zone .border-b-cyan-900 { border-bottom-color: rgba(255,255,255,0.15) !important; }
+.hud-zone .border-l-cyan-500 { border-left-color: rgba(255,255,255,0.35) !important; }
+
+/* Hover states */
+.hud-zone .hover\:text-cyan-300:hover,
+.hud-zone .hover\:text-cyan-400:hover { color: #ffffff !important; }
+.hud-zone .hover\:bg-cyan-300:hover { background-color: rgba(255,255,255,0.1) !important; }
+.hud-zone .hover\:bg-cyan-500\/20:hover { background-color: rgba(255,255,255,0.08) !important; }
+.hud-zone .hover\:bg-cyan-900\/50:hover { background-color: rgba(0,0,0,0.5) !important; }
+.hud-zone .hover\:bg-cyan-950\/30:hover { background-color: rgba(0,0,0,0.3) !important; }
+.hud-zone .hover\:border-cyan-300:hover,
+.hud-zone .hover\:border-cyan-500:hover { border-color: rgba(255,255,255,0.4) !important; }
+.hud-zone .hover\:border-cyan-500\/40:hover { border-color: rgba(255,255,255,0.2) !important; }
+.hud-zone .hover\:border-cyan-500\/50:hover { border-color: rgba(255,255,255,0.25) !important; }
+.hud-zone .hover\:border-cyan-600:hover { border-color: rgba(255,255,255,0.3) !important; }
+.hud-zone .hover\:border-cyan-800:hover { border-color: rgba(255,255,255,0.2) !important; }
+
+/* Accent */
+.hud-zone .accent-cyan-500 { accent-color: #ffffff !important; }
+
 /* ── MATRIX HUD COLOR THEME ── */
 /* Remaps cyan accents → green within .hud-zone containers only */
 [data-hud="matrix"] .hud-zone {
-  --text-secondary: #4ade80;
-  --text-muted: #16a34a;
-  --text-heading: #bbf7d0;
-  --hover-accent: rgba(5, 46, 22, 0.2);
-  --scrollbar-thumb: rgba(22, 163, 74, 0.3);
-  --scrollbar-thumb-hover: rgba(22, 163, 74, 0.5);
+  --text-secondary: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.7);
+  --text-heading: #ffffff;
+  --hover-accent: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.3);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.5);
 }
 
 /* --- Text color overrides --- */

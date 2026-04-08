@@ -247,16 +247,7 @@ export default function Dashboard() {
         <>
 
 
-          {/* SYSTEM METRICS TOP LEFT */}
-          <div className="absolute top-2 left-6 text-[8px] font-mono tracking-widest text-cyan-500/50 z-[200] pointer-events-none hud-zone">
-            OPTIC VIS:113  SRC:180  DENS:1.42  0.8ms
-          </div>
 
-          {/* SYSTEM METRICS TOP RIGHT */}
-          <div className="absolute top-2 right-6 text-[9px] flex flex-col items-end font-mono tracking-widest text-[var(--text-muted)] z-[200] pointer-events-none hud-zone">
-            <div>RTX</div>
-            <div>VSR</div>
-          </div>
 
           {/* LEFT HUD CONTAINER — slides off left edge when hidden */}
           <motion.div

@@ -142,33 +142,33 @@ export default function Dashboard() {
   const [measureMode, setMeasureMode] = useState(false);
   const [measurePoints, setMeasurePoints] = useState<{ lat: number; lng: number }[]>([]);
 
-  const [activeLayers, setActiveLayers] = useState({
-    flights: true,
-    private: true,
-    jets: true,
-    military: true,
-    tracked: true,
-    satellites: true,
-    ships_military: true,
-    ships_cargo: true,
-    ships_civilian: false,
-    ships_passenger: true,
-    ships_tracked_yachts: true,
-    earthquakes: true,
-    cctv: false,
-    ukraine_frontline: true,
-    global_incidents: true,
-    day_night: true,
-    gps_jamming: true,
-    gibs_imagery: false,
-    highres_satellite: false,
-    kiwisdr: false,
-    firms: false,
-    internet_outages: false,
-    datacenters: false,
-    military_bases: false,
-    power_plants: false,
-  });
+const [activeLayers, setActiveLayers] = useState({
+  flights: false,
+  private: false,
+  jets: false,
+  military: true,
+  tracked: true,
+  satellites: false,
+  ships_military: true,
+  ships_cargo: false,
+  ships_civilian: false,
+  ships_passenger: false,
+  ships_tracked_yachts: false,
+  earthquakes: false,
+  cctv: false,
+  ukraine_frontline: false,
+  global_incidents: true,
+  day_night: false,
+  gps_jamming: false,
+  gibs_imagery: false,
+  highres_satellite: false,
+  kiwisdr: false,
+  firms: false,
+  internet_outages: false,
+  datacenters: false,
+  military_bases: false,
+  power_plants: false,
+});
 
   // NASA GIBS satellite imagery state
   const [gibsDate, setGibsDate] = useState<string>(() => {
@@ -247,16 +247,7 @@ export default function Dashboard() {
         <>
 
 
-          {/* SYSTEM METRICS TOP LEFT */}
-          <div className="absolute top-2 left-6 text-[8px] font-mono tracking-widest text-cyan-500/50 z-[200] pointer-events-none hud-zone">
-            OPTIC VIS:113  SRC:180  DENS:1.42  0.8ms
-          </div>
 
-          {/* SYSTEM METRICS TOP RIGHT */}
-          <div className="absolute top-2 right-6 text-[9px] flex flex-col items-end font-mono tracking-widest text-[var(--text-muted)] z-[200] pointer-events-none hud-zone">
-            <div>RTX</div>
-            <div>VSR</div>
-          </div>
 
           {/* LEFT HUD CONTAINER — slides off left edge when hidden */}
           <motion.div
